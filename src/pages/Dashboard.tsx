@@ -3,13 +3,8 @@ import {
   Box,
   Container,
   Text,
-  Image,
   SimpleGrid,
   Flex,
-  StatLabel,
-  Stat,
-  StatNumber,
-  StatHelpText,
   HStack,
   Divider,
   FormControl,
@@ -26,6 +21,7 @@ import { Link } from "react-router-dom";
 
 import { useProductCategories, useProducts } from "../hooks";
 import { IProduct, IProductConfig, SortByValue } from "../constants";
+import ProductCard from "../components/ProductCard";
 
 export default function Dashboard() {
   const [productConfig, setProductConfig] = React.useState<IProductConfig>({
@@ -107,36 +103,7 @@ export default function Dashboard() {
         <SimpleGrid minChildWidth="180px" spacing="1.5rem">
           {products.data?.data?.map((product: IProduct) => (
             <Link key={product.id} to={`/product/${product.id}`}>
-              <Box
-                bgColor="blue.100"
-                height="300px"
-                borderRadius="1rem"
-                role="group"
-                _hover={{ shadow: "lg" }}
-              >
-                <Flex
-                  bgColor="white"
-                  height="60%"
-                  justifyContent="center"
-                  alignItems="center"
-                  borderTopRadius="1rem"
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.description}
-                    width="50%"
-                    height="auto"
-                    _groupHover={{ width: "52%" }}
-                  />
-                </Flex>
-                <Stat px="1rem" pt="0.5rem">
-                  <StatNumber>${product.price}</StatNumber>
-                  <StatLabel noOfLines={2}>{product.title}</StatLabel>
-                  <StatHelpText>
-                    {product.rating.rate} ({product.rating.count})
-                  </StatHelpText>
-                </Stat>
-              </Box>
+              <ProductCard product={product} />
             </Link>
           ))}
         </SimpleGrid>
