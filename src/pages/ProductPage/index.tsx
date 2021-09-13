@@ -7,6 +7,7 @@ import {
   BreadcrumbLink,
   Button,
   Container,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -18,6 +19,8 @@ import {
   NumberInputStepper,
   Text,
 } from "@chakra-ui/react";
+import { AddIcon, StarIcon } from "@chakra-ui/icons";
+
 import { useProduct } from "../../hooks";
 
 type ProductPageParams = {
@@ -73,7 +76,11 @@ export default function Product() {
               </Text>
               <Text>{`Category: ${product.data?.data?.category}`}</Text>
               <Text>{product.data?.data?.description}</Text>
-              <Text>{`${product.data?.data?.rating?.rate} (${product.data?.data?.rating.count})`}</Text>
+              <Flex alignItems="center">
+                <StarIcon color="yellow.400" mr="0.5rem" />
+                <Text>{`${product.data?.data?.rating?.rate} (${product.data?.data?.rating.count})`}</Text>
+              </Flex>
+              <Divider my="1rem" />
               <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
                 <FormLabel>Quantity</FormLabel>
                 <NumberInput max={20} min={1} step={1} defaultValue={1}>
@@ -84,7 +91,9 @@ export default function Product() {
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
-              <Button colorScheme="blue">Add to cart</Button>
+              <Button leftIcon={<AddIcon />} colorScheme="blue" my="1rem">
+                Add to cart
+              </Button>
             </Box>
           </Flex>
         )}
