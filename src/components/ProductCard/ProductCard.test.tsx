@@ -23,9 +23,17 @@ describe("componentProductCard", () => {
     expect(productName).toBeInTheDocument();
   });
 
-  it("renders product price", async () => {
+  it("renders product price", () => {
     render(<ProductCard product={sampleProduct} />);
     const productPrice = screen.getByText(`$ ${sampleProduct.price}`);
     expect(productPrice).toBeInTheDocument();
+  });
+
+  it("renders product rating and count", () => {
+    render(<ProductCard product={sampleProduct} />);
+    const productRating = screen.getByTestId("productCard-1");
+    expect(productRating).toHaveTextContent(
+      `${sampleProduct.rating.rate} (${sampleProduct.rating.count})`
+    );
   });
 });
