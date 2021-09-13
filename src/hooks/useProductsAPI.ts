@@ -7,6 +7,10 @@ export function useProducts(config: IProductConfig) {
   return useQuery(["products", config], ProductsAPI.fetchAll);
 }
 
+export function useProduct(productId: number) {
+  return useQuery(["products", productId], ProductsAPI.fetchOne);
+}
+
 export function useProductCategories() {
   return useQuery("productCategories", ProductsAPI.fetchCategories);
 }
