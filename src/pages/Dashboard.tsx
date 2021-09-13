@@ -35,74 +35,77 @@ export default function Dashboard() {
   return (
     <Box bgColor="blue.50">
       <Container maxW="container.xl" minHeight="100vh" p="2rem">
-        <Text fontSize="4xl" fontWeight="bold" pb="1rem">
-          Categories
-        </Text>
-        <Flex flexWrap="wrap">
-          {categories.data?.data?.map((category: string[]) => (
-            <Box
-              py="0.25rem"
-              px="1rem"
-              bgColor="white"
-              rounded="lg"
-              borderColor="gray.200"
-              borderWidth="1px"
-            >
-              <Text fontSize="lg">{category}</Text>
-            </Box>
-          ))}
-        </Flex>
-        <Text fontSize="4xl" fontWeight="bold" py="2rem">
+        <Text fontSize="4xl" fontWeight="bold" pt="2rem">
           Products
         </Text>
-        <Box my="1.5rem">
+        <Box mb="1.5rem">
           <Divider />
-          <Flex flexWrap="wrap" justifyContent={{ sm: "flex-start", md: "flex-end" }} my="0.5rem">
-            <FormControl as="fieldset" maxWidth="300px">
-              <FormLabel as="legend">Sort products by</FormLabel>
-              <RadioGroup
-                defaultValue="asc"
-                onChange={(value: SortByValue) => {
-                  setProductConfig((prevState) => ({
-                    ...prevState,
-                    sort: value,
-                  }));
-                }}
-              >
-                <HStack spacing="24px">
-                  <Radio value="asc">Ascending</Radio>
-                  <Radio value="desc">Descending</Radio>
-                </HStack>
-              </RadioGroup>
-            </FormControl>
-            <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
-              <FormLabel>Amount</FormLabel>
-              <NumberInput
-                max={20}
-                min={1}
-                step={1}
-                defaultValue={10}
-                onChange={(value: string) => {
-                  setProductConfig((prevState) => ({
-                    ...prevState,
-                    limit: Number(value),
-                  }));
-                }}
-              >
-                <NumberInputField bg="white" />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
-          </Flex>
-          <Divider />
+          <Box my="0.5rem">
+            <Box>
+              <Text mb="0.5rem">Categories</Text>
+              <Flex flexWrap="wrap">
+                {categories.data?.data?.map((category: string[]) => (
+                  <Box
+                    py="0.25rem"
+                    px="0.5rem"
+                    mr="0.5rem"
+                    bgColor="white"
+                    rounded="lg"
+                    borderColor="gray.200"
+                    borderWidth="1px"
+                    _hover={{ borderColor: "blue.200", cursor: "pointer" }}
+                  >
+                    <Text fontSize="md">{category}</Text>
+                  </Box>
+                ))}
+              </Flex>
+            </Box>
+            <Flex maxWidth="350px" my="1rem">
+              <FormControl as="fieldset">
+                <FormLabel as="legend">Sort products by</FormLabel>
+                <RadioGroup
+                  defaultValue="asc"
+                  onChange={(value: SortByValue) => {
+                    setProductConfig((prevState) => ({
+                      ...prevState,
+                      sort: value,
+                    }));
+                  }}
+                >
+                  <HStack spacing="24px">
+                    <Radio value="asc">Ascending</Radio>
+                    <Radio value="desc">Descending</Radio>
+                  </HStack>
+                </RadioGroup>
+              </FormControl>
+              <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
+                <FormLabel>Amount</FormLabel>
+                <NumberInput
+                  max={20}
+                  min={1}
+                  step={1}
+                  defaultValue={10}
+                  onChange={(value: string) => {
+                    setProductConfig((prevState) => ({
+                      ...prevState,
+                      limit: Number(value),
+                    }));
+                  }}
+                >
+                  <NumberInputField bg="white" />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            </Flex>
+          </Box>
         </Box>
         {products.isLoading && <Text>Loading products...</Text>}
         <SimpleGrid minChildWidth="180px" spacing="1.5rem">
           {products.data?.data?.map((product: IProduct) => (
-            <Link key={product.id} to={`/product/${product.id}`}>
+            <Link key={product.id} to={`/products/${product.id}`}>
               <ProductCard product={product} />
             </Link>
           ))}
