@@ -20,6 +20,11 @@ function ProductsAPI() {
       const response = await API.get(`${endpoint}/categories`);
       return response;
     },
+    fetchOne: async ({ queryKey }: { queryKey: (string | number)[] }): Promise<AxiosResponse> => {
+      const productId = queryKey[1];
+      const response = await API.get(`${endpoint}/${productId}`);
+      return response;
+    },
   };
 }
 
