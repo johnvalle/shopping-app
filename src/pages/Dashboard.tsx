@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 
 import { useProductCategories, useProducts } from "../hooks";
 import { IProduct, IProductConfig, SortByValue } from "../constants";
-import ProductCard from "../components/ProductCard";
+import { ProductCard, Navbar } from "../components";
 
 export default function Dashboard() {
   const [productConfig, setProductConfig] = React.useState<IProductConfig>({
@@ -34,8 +34,9 @@ export default function Dashboard() {
 
   return (
     <Box bgColor="blue.50">
-      <Container maxW="container.xl" minHeight="100vh" p="2rem">
-        <Text fontSize="4xl" fontWeight="bold" pt="2rem">
+      <Navbar />
+      <Container maxW="container.xl" minHeight="calc(100vh - 80px)" p="2rem">
+        <Text fontSize="4xl" fontWeight="bold">
           Products
         </Text>
 
