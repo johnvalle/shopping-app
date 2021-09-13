@@ -17,7 +17,7 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route path="/" component={Pages.Dashboard} exact />
-            <Route path="/product/:id" component={Pages.Product} exact />
+            <Route path="/products/:id" component={Pages.Product} exact />
           </Switch>
         </BrowserRouter>
       </ChakraProvider>
