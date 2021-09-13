@@ -28,9 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <Stat px="1rem" pt="0.5rem">
         <StatNumber>{`$ ${product.price}`}</StatNumber>
         <StatLabel noOfLines={2}>{product.title}</StatLabel>
-        <StatHelpText>
-          {product.rating.rate} ({product.rating.count})
-        </StatHelpText>
+        <StatHelpText data-testid="productCard-1">{`${product.rating.rate} (${product.rating.count})`}</StatHelpText>
       </Stat>
     </Box>
   );
