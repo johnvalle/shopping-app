@@ -19,3 +19,8 @@ export interface IProductConfig {
   limit: number;
   sort: SortByValue;
 }
+
+export interface ICartProduct {
+  quantity: number;
+  id: number;
+}
