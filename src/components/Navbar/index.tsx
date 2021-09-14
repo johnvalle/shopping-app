@@ -2,7 +2,12 @@ import React from "react";
 import { BiCart } from "react-icons/bi";
 import { Flex, Container, Text, Button, Icon } from "@chakra-ui/react";
 
+import { RootState } from "../../stores";
+import { useAppSelector } from "../../hooks";
+
 export default function Navbar() {
+  const quantity = useAppSelector((state: RootState) => state.cart.quantity);
+
   return (
     <Flex
       top="0"
@@ -19,7 +24,7 @@ export default function Navbar() {
             FakeStore
           </Text>
           <Button size="sm" leftIcon={<Icon as={BiCart} />} colorScheme="blue">
-            Cart
+            Cart: {quantity}
           </Button>
         </Flex>
       </Container>

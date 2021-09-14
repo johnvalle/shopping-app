@@ -21,16 +21,26 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, StarIcon } from "@chakra-ui/icons";
 
-import { useProduct } from "../../hooks";
+import { useAppDispatch, useProduct } from "../../hooks";
 import { Navbar } from "../../components";
+import { addProduct, setQuantity } from "../../slices/CartSlice";
 
 type ProductPageParams = {
   id: string;
 };
 
 export default function Product() {
+  const [itemQuantity, setItemQuantity] = React.useState(1);
+
   const { id } = useParams<ProductPageParams>();
   const product = useProduct(Number(id));
+  const dispatch = useAppDispatch();
+
+  const addToCart = () => {
+    dispatch(setQuantity(itemQuantity));
+    dispatch(addProduct(Number(id)));
+    setItemQuantity(1);
+  };
 
   return (
     <>
@@ -86,7 +96,13 @@ export default function Product() {
                 <Divider my="1rem" />
                 <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
                   <FormLabel>Quantity</FormLabel>
-                  <NumberInput max={20} min={1} step={1} defaultValue={1}>
+                  <NumberInput
+                    max={20}
+                    min={1}
+                    step={1}
+                    defaultValue={itemQuantity}
+                    onChange={(value) => setItemQuantity(Number(value))}
+                  >
                     <NumberInputField bg="white" />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -94,7 +110,7 @@ export default function Product() {
                     </NumberInputStepper>
                   </NumberInput>
                 </FormControl>
-                <Button leftIcon={<AddIcon />} colorScheme="blue" my="1rem">
+                <Button leftIcon={<AddIcon />} colorScheme="blue" my="1rem" onClick={addToCart}>
                   Add to cart
                 </Button>
               </Box>
