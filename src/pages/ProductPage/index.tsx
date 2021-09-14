@@ -18,6 +18,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon, StarIcon } from "@chakra-ui/icons";
 
@@ -31,93 +32,105 @@ type ProductPageParams = {
 
 export default function Product() {
   const [itemQuantity, setItemQuantity] = React.useState(1);
-
+  const toast = useToast();
   const { id } = useParams<ProductPageParams>();
   const product = useProduct(Number(id));
   const dispatch = useAppDispatch();
 
   const addToCart = () => {
+    // define product to add
+    const productToAdd = {
+      quantity: itemQuantity,
+      id: Number(id),
+    };
+    // dispatch redux actions
     dispatch(setQuantity(itemQuantity));
-    dispatch(addProduct(Number(id)));
+    dispatch(addProduct(productToAdd));
+    // reset item quantity
     setItemQuantity(1);
+    // notify user, product has been added
+    toast({
+      title: "Product added to cart!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
-    <>
-      <Box bgColor="gray.50">
-        <Navbar />
-        <Container maxW="container.xl" minHeight="calc(100vh - 80px)" p="2rem">
-          <Text fontSize="4xl" fontWeight="bold">
-            Products
-          </Text>
+    <Box bgColor="gray.50">
+      <Navbar />
+      <Container maxW="container.xl" minHeight="calc(100vh - 80px)" p="2rem">
+        <Text fontSize="4xl" fontWeight="bold">
+          Products
+        </Text>
 
-          {product.isLoading && <Text>Loading...</Text>}
+        {product.isLoading && <Text>Loading...</Text>}
 
-          {!product.isLoading && (
-            <Breadcrumb spacing="8px" separator=">">
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">Products</BreadcrumbLink>
-              </BreadcrumbItem>
+        {!product.isLoading && (
+          <Breadcrumb spacing="8px" separator=">">
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Products</BreadcrumbLink>
+            </BreadcrumbItem>
 
-              <BreadcrumbItem>
-                <BreadcrumbLink href={`/products/${product.data?.data?.category}`}>
-                  {product.data?.data?.category}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/products/${product.data?.data?.category}`}>
+                {product.data?.data?.category}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
 
-              <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink href={`/products/${product.data?.data?.id}`}>
-                  {product.data?.data?.title}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </Breadcrumb>
-          )}
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink href={`/products/${product.data?.data?.id}`}>
+                {product.data?.data?.title}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        )}
 
-          {!product.isLoading && (
-            <Flex bgColor="white" my="2rem" p="1.5rem">
-              <Flex width="50%" height="400px" justifyContent="center">
-                <Image
-                  width="300px"
-                  height="auto"
-                  objectFit="contain"
-                  src={product.data?.data?.image}
-                />
-              </Flex>
-              <Box width="50%">
-                <Text fontSize="xl" fontWeight="bold">
-                  {product.data?.data?.title}
-                </Text>
-                <Text>{`Category: ${product.data?.data?.category}`}</Text>
-                <Text>{product.data?.data?.description}</Text>
-                <Flex alignItems="center">
-                  <StarIcon color="yellow.400" mr="0.5rem" />
-                  <Text>{`${product.data?.data?.rating?.rate} (${product.data?.data?.rating.count})`}</Text>
-                </Flex>
-                <Divider my="1rem" />
-                <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
-                  <FormLabel>Quantity</FormLabel>
-                  <NumberInput
-                    max={20}
-                    min={1}
-                    step={1}
-                    defaultValue={itemQuantity}
-                    onChange={(value) => setItemQuantity(Number(value))}
-                  >
-                    <NumberInputField bg="white" />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </FormControl>
-                <Button leftIcon={<AddIcon />} colorScheme="blue" my="1rem" onClick={addToCart}>
-                  Add to cart
-                </Button>
-              </Box>
+        {!product.isLoading && (
+          <Flex bgColor="white" my="2rem" p="1.5rem">
+            <Flex width="50%" height="400px" justifyContent="center">
+              <Image
+                width="300px"
+                height="auto"
+                objectFit="contain"
+                src={product.data?.data?.image}
+              />
             </Flex>
-          )}
-        </Container>
-      </Box>
-    </>
+            <Box width="50%">
+              <Text fontSize="xl" fontWeight="bold">
+                {product.data?.data?.title}
+              </Text>
+              <Text>{`Category: ${product.data?.data?.category}`}</Text>
+              <Text>{product.data?.data?.description}</Text>
+              <Flex alignItems="center">
+                <StarIcon color="yellow.400" mr="0.5rem" />
+                <Text>{`${product.data?.data?.rating?.rate} (${product.data?.data?.rating.count})`}</Text>
+              </Flex>
+              <Divider my="1rem" />
+              <FormControl id="amount" maxWidth={{ sm: "100%", md: "100px" }}>
+                <FormLabel>Quantity</FormLabel>
+                <NumberInput
+                  max={20}
+                  min={1}
+                  step={1}
+                  defaultValue={itemQuantity}
+                  onChange={(value) => setItemQuantity(Number(value))}
+                >
+                  <NumberInputField bg="white" />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <Button leftIcon={<AddIcon />} colorScheme="blue" my="1rem" onClick={addToCart}>
+                Add to cart
+              </Button>
+            </Box>
+          </Flex>
+        )}
+      </Container>
+    </Box>
   );
 }
