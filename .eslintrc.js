@@ -22,7 +22,8 @@ module.exports = {
     // Unnecessary
     "react/jsx-one-expression-per-line": "off",
     "object-curly-newline": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-param-reassign": [2, { "props": false }]
   },
   overrides: [
     {
