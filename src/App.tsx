@@ -23,6 +23,7 @@ function App() {
               <Switch>
                 <Route path="/" component={Pages.Dashboard} exact />
                 <Route path="/products/:id" component={Pages.Product} exact />
+                <Route path="/cart" component={Pages.Cart} exact />
               </Switch>
             </BrowserRouter>
           </PersistGate>
